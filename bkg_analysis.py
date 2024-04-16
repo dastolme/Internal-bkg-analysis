@@ -35,12 +35,12 @@ detector_excel_cells_isotopes = {
     'CuLayer_0': {
         'isotopes': ['U238', 'Ra226', 'U235', 'Th232', 'K40', 'Cs137', 'Co60', 'Co58', 'Co57', 'Co56', 'Mn54', 'Be7'],
         'excel_cells': ['Activity!D138', 'Activity!D137', 'Activity!D140', 'Activity!D136', 'Activity!D141', 'Activity!D142', 'Activity!D143', 'Activity!D144', 'Activity!D145', 'Activity!D146', 'Activity!D147', 'Activity!D148'],
-        'copper_reference': 'SABRE-Miorini-1'
+        'copper_reference': 'Schrieber-SABRE'
     }
     # 'CuLayer_1': {
     #     'isotopes': ['U238', 'Ra226', 'U235', 'Th232', 'K40', 'Cs137', 'Co60', 'Co58', 'Co57', 'Co56', 'Mn54', 'Be7'],
     #     'excel_cells': ['Activity!D138', 'Activity!D137', 'Activity!D140', 'Activity!D136', 'Activity!D141', 'Activity!D142', 'Activity!D143', 'Activity!D144', 'Activity!D145', 'Activity!D146', 'Activity!D147', 'Activity!D148'],
-    #     'copper_reference': 'SABRE-Miorini-1'
+    #     'copper_reference': 'Schrieber-SABRE'
     # },
     # 'CuLayer_2': {
     #     'isotopes': ['U238', 'Ra226', 'U235', 'Th232', 'K40', 'Cs137', 'Co60', 'Ag108m', 'Bi207', 'Pb210'],
