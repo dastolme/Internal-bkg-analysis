@@ -110,7 +110,7 @@ def main():
 
                 # Plot the spectrum for the current isotope
                 if events_per_year_per_keV_isotope is not None:
-                    plot_energy_histogram(np.arange(max_length), events_per_year_per_keV_isotope, errorbars_per_year_per_keV_isotope, bin_width=5.0)
+                    plot_energy_histogram(np.arange(max_length), events_per_year_per_keV_isotope, errorbars_per_year_per_keV_isotope, title=f'EnergyDep in {detector} for {isotope}', bin_width=5.0)
 
                 # Add histogram of the current isotope to the detector's accumulator if it's not empty
                 if events_per_year_per_keV_isotope is not None:
