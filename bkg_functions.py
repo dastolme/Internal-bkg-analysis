@@ -391,3 +391,28 @@ def total_rate_within_interval(events_per_year_per_keV, energy_min, energy_max):
         if energy_min <= energy <= energy_max:
             total_rate += count
     return total_rate
+
+def sum_errors_in_quadrature_within_interval(errors, energy_min, energy_max):
+    """
+    Sum errors in quadrature between energy_min and energy_max.
+
+    Parameters:
+    errors (array-like): Array of errors corresponding to energy bins.
+    energy_min (int): Minimum energy bin index for the range.
+    energy_max (int): Maximum energy bin index for the range.
+
+    Returns:
+    float: Quadrature sum of errors within the specified energy range.
+    """
+
+    # Ensure energy_min and energy_max are within the range of errors
+    if energy_min < 0 or energy_max >= len(errors):
+        raise ValueError("Energy range exceeds the bounds of the errors array.")
+
+    # Extract errors within the specified energy range
+    errors_range = errors[energy_min:energy_max+1]
+
+    # Sum errors in quadrature
+    sum_squared_errors = np.sum(np.square(errors_range))
+
+    return np.sqrt(sum_squared_errors)

@@ -15,7 +15,8 @@ from bkg_functions import (
     energy_histogram,
     plot_energy_histogram,
     process_isotope,
-    total_rate_within_interval
+    total_rate_within_interval,
+    sum_errors_in_quadrature_within_interval
 )
 
 SPREADSHEET_ID = "1OE5g3B6f43WHYlp49HuKK3h8Ac9ZMRpqrXVqkBuU7VQ"
@@ -28,8 +29,17 @@ detector_masses = {
     "CuLayer_4": 2352.19,
 }
 
+# Schrieber-SABRE
 #'isotopes': ['U238', 'Ra226', 'U235', 'Th232', 'K40', 'Cs137', 'Co60', 'Co58', 'Co57', 'Co56', 'Mn54', 'Be7'],
 #'excel_cells': ['Activity!D138', 'Activity!D137', 'Activity!D140', 'Activity!D136', 'Activity!D141', 'Activity!D142', 'Activity!D143', 'Activity!D144', 'Activity!D145', 'Activity!D146', 'Activity!D147', 'Activity!D148'],
+
+# OPERA
+#'isotopes': ['U238', 'Ra226', 'U235', 'Th232', 'K40', 'Cs137', 'Co60', 'Ag108m', 'Bi207', 'Pb210'],
+#'excel_cells': ['Activity!D103', 'Activity!D102', 'Activity!D104', 'Activity!D105', 'Activity!D107', 'Activity!D108', 'Activity!D109', 'Activity!D110', 'Activity!D111', 'Activity!D112'],
+
+# Miorini - SABRE
+#'isotopes': ['U238', 'Ra226', 'U235', 'Th232', 'K40', 'Cs137', 'Co60', 'Co58', 'Co57', 'Co56', 'Mn54'],
+#'excel_cells': ['Activity!D116', 'Activity!D115', 'Activity!D118', 'Activity!D119', 'Activity!D121', 'Activity!D122', 'Activity!D123', 'Activity!D124', 'Activity!D125', 'Activity!D126']
 
 detector_excel_cells_isotopes = {
     'CuLayer_0': {
@@ -100,7 +110,7 @@ def main():
 
                 if events_per_year_per_keV_isotope is not None:
                     isotope_rate = total_rate_within_interval(events_per_year_per_keV_isotope, energy_min, energy_max)
-                    isotope_error = total_rate_within_interval(errorbars_per_year_per_keV_isotope, energy_min, energy_max)
+                    isotope_error = sum_errors_in_quadrature_within_interval(errorbars_per_year_per_keV_isotope, energy_min, energy_max)
                     logging.info(f"Total Rate for isotope '{isotope}' within the energy interval [{energy_min}, {energy_max}] keV from {detector}: {isotope_rate} ± {isotope_error} events per year. Activity: {excel_cell}")
 
                 # Print the total rate for the current isotope
@@ -115,11 +125,14 @@ def main():
                 # Add histogram of the current isotope to the detector's accumulator if it's not empty
                 if events_per_year_per_keV_isotope is not None:
                     detector_events_per_year_per_keV += events_per_year_per_keV_isotope
-                    detector_errorbars_per_year_per_keV += errorbars_per_year_per_keV_isotope
-
+                    detector_errorbars_per_year_per_keV += np.square(errorbars_per_year_per_keV_isotope)
+        
+        # Rescaling the error bars
+        detector_errorbars_per_year_per_keV = np.sqrt(detector_errorbars_per_year_per_keV)
+        
         # Calculate the total rate for events within the energy interval [1, 20] keV from the current detector
         part_rate = total_rate_within_interval(detector_events_per_year_per_keV, energy_min, energy_max)
-        part_error = total_rate_within_interval(detector_errorbars_per_year_per_keV, energy_min, energy_max)  # Calculate error
+        part_error = sum_errors_in_quadrature_within_interval(detector_errorbars_per_year_per_keV, energy_min, energy_max)  # Calculate error
         print(f"Total Rate for events within the energy interval [{energy_min}, {energy_max}] keV from {detector}: {part_rate} ± {part_error} events per year")
         logging.info(f"Total Rate for events within the energy interval [{energy_min}, {energy_max}] keV from {detector}: {part_rate} ± {part_error} events per year")
 
