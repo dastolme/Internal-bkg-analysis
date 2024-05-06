@@ -311,6 +311,9 @@ def plot_energy_histogram(bin_centers, events_per_year_per_keV, errorbars_per_ye
     new_bin_centers = np.array(new_bin_centers)
     new_events_per_year_per_keV = np.array(new_events_per_year_per_keV)
     new_errorbars_per_year_per_keV = np.array(new_errorbars_per_year_per_keV)
+
+    # Find the index of the last non-empty bin
+    last_non_empty_idx = np.where(new_events_per_year_per_keV > 0)[0][-1]
     
     # Plot the histogram with error bars
     plt.bar(new_bin_centers, new_events_per_year_per_keV, width=bin_width, edgecolor='crimson', alpha=0.6, label='Histogram')
@@ -322,6 +325,8 @@ def plot_energy_histogram(bin_centers, events_per_year_per_keV, errorbars_per_ye
     plt.legend()
     plt.grid(True)
     plt.yscale("log")
+
+    plt.xlim(left=0,right=new_bin_edges[last_non_empty_idx + 10])  # Set x-axis limit to the end of the last non-empty bin
     
     plt.show()
 

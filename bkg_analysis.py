@@ -38,7 +38,7 @@ detector_masses = {
 #'excel_cells': ['Activity!D103', 'Activity!D102', 'Activity!D104', 'Activity!D105', 'Activity!D107', 'Activity!D108', 'Activity!D109', 'Activity!D110', 'Activity!D111', 'Activity!D112'],
 
 # Miorini - SABRE
-#'isotopes': ['U238', 'Ra226', 'U235', 'Th232', 'K40', 'Cs137', 'Co60', 'Co58', 'Co57', 'Co56', 'Mn54'],
+#'isotopes': ['U238', 'Ra226', 'U235', 'Th232', 'K40', 'Cs137', 'Co60', 'Co58', 'Co57', 'Mn54'],
 #'excel_cells': ['Activity!D116', 'Activity!D115', 'Activity!D118', 'Activity!D119', 'Activity!D121', 'Activity!D122', 'Activity!D123', 'Activity!D124', 'Activity!D125', 'Activity!D126']
 
 detector_excel_cells_isotopes = {
@@ -146,7 +146,7 @@ def main():
 
     # Calculate the total rate for events within the energy interval [1, 20] keV from all detectors
     total_rate = total_rate_within_interval(sum_histogram, energy_min, energy_max)
-    total_error = total_rate_within_interval(sum_errorbars, energy_min, energy_max)  # Calculate error
+    total_error = sum_errors_in_quadrature_within_interval(sum_errorbars, energy_min, energy_max)  # Calculate error
     print(f"Total Rate for events within the energy interval [{energy_min}, {energy_max}] keV from all detectors: {total_rate} ± {total_error} events per year")
     logging.info(f"Total Rate for events within the energy interval [{energy_min}, {energy_max}] keV from all detectors: {total_rate} ± {total_error} events per year")
     
